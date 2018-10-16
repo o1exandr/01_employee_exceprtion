@@ -257,22 +257,48 @@ namespace _01_employee_exceprtion
             }
         }
 
+        public class Department// : Employee
+        {
+            List<Employee> employees = new List<Employee>();
+            //List<Employee> employees;
+            //List<int> numbers = new List<int>()
 
+            public void AddEmployee(Employee empl)
+            {
+                //Employee employee = new Employee();
+                    //client.EnterDataClient();
+          
+                employees.Add(empl);
+                 //Shp.Add(new Rectangle(Sh));
+               //  employees.Add(new Employee(empl));
+                //List<Employee> employees = new List<Employee>();
+                //employees.Add(new Employee() {empl});
+                //people.Add(new Person() { Name = "Том" });
+            }
+
+            public void Print()
+                {
+                foreach(Employee e in employees)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+
+        }
 
         static void Main(string[] args)
         {
+            
             Employee e1 = new Employee("John", "Smith", "Director", 20000);
-            //Console.WriteLine(e1);
             Employee e2 = new Employee("Dwain", "Parker");
-            //Console.WriteLine(e2);
             Employee e3 = new Employee("Jessy", "Johnson", "Engeneer", 1000); // salary буде змінено на 3200
             e3.Hobby = "Reading";
-            //Console.WriteLine(e3);
             Employee e4 = new Employee();
             e4.Name = "Brianne";
             e4.Surname = "Lessy";
             //Console.WriteLine(e4);
 
+            /*
             Employee[] arr = { e1, e2, e3, new Employee("Will", "Terner", "HR", 15000) };
             arr[3].Hobby = "Watching TV";
             Console.WriteLine("\t-= Array of employees =-");
@@ -287,8 +313,17 @@ namespace _01_employee_exceprtion
             Console.WriteLine($"\n{arr[3].FullName} works {arr[3].Months} months or {arr[3].Years} years");
             e1.SetName("Johntan");
             e1.SetSurname("Walker");
-            e1.SetSalary();
+            //e1.SetSalary();
             Console.WriteLine(e1);
+            */
+
+            Department dp = new Department();
+            
+            dp.AddEmployee(e1);
+            dp.AddEmployee(e2);
+            dp.Print();
+
+            Console.ReadKey();
         }
     }
 }
