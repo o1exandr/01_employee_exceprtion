@@ -257,23 +257,35 @@ namespace _01_employee_exceprtion
             }
         }
 
-        public class Department// : Employee
+        public class Department
         {
             List<Employee> employees = new List<Employee>();
-            //List<Employee> employees;
-            //List<int> numbers = new List<int>()
 
+            // додати працівника
             public void AddEmployee(Employee empl)
             {
-                //Employee employee = new Employee();
-                    //client.EnterDataClient();
-          
-                employees.Add(empl);
-                 //Shp.Add(new Rectangle(Sh));
-               //  employees.Add(new Employee(empl));
-                //List<Employee> employees = new List<Employee>();
-                //employees.Add(new Employee() {empl});
-                //people.Add(new Person() { Name = "Том" });
+                   employees.Add(empl);
+            }
+
+            // видалити працівника
+            public void DelEmployee()
+            {
+                int count = 0;
+                foreach(Employee e in employees)
+                {
+                    Console.WriteLine($"({count++})\t{e.FullName}\t{e.Position}");
+                }
+                Console.Write("\nSelect number of employee for delete:\t");
+                string tmp = Console.ReadLine();
+                if (int.TryParse(tmp, out int index) && index < employees.Count) //якщо число в це читсло не виходить за межі кількості елементів - видаляємо
+                {
+                    Console.WriteLine($"({index}) {employees[index].FullName}\tDELETED");
+                    employees.Remove(employees[index]);
+                }
+                else
+                    Console.WriteLine($"'{tmp}' is not correct index");
+
+                
             }
 
             public void Print()
@@ -284,6 +296,7 @@ namespace _01_employee_exceprtion
                     }
                 }
 
+
         }
 
         static void Main(string[] args)
@@ -291,11 +304,6 @@ namespace _01_employee_exceprtion
             
             Employee e1 = new Employee("John", "Smith", "Director", 20000);
             Employee e2 = new Employee("Dwain", "Parker");
-            Employee e3 = new Employee("Jessy", "Johnson", "Engeneer", 1000); // salary буде змінено на 3200
-            e3.Hobby = "Reading";
-            Employee e4 = new Employee();
-            e4.Name = "Brianne";
-            e4.Surname = "Lessy";
             //Console.WriteLine(e4);
 
             /*
@@ -321,6 +329,9 @@ namespace _01_employee_exceprtion
             
             dp.AddEmployee(e1);
             dp.AddEmployee(e2);
+            dp.AddEmployee(new Employee("Jessy", "Johnson", "Engeneer", 15000));
+            dp.Print();
+            dp.DelEmployee();
             dp.Print();
 
             Console.ReadKey();
