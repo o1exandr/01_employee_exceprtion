@@ -270,6 +270,8 @@ namespace _01_employee_exceprtion
             // видалити працівника
             public void DelEmployee()
             {
+                try
+                {
                 int count = 0;
                 foreach(Employee e in employees)
                 {
@@ -284,6 +286,18 @@ namespace _01_employee_exceprtion
                 }
                 else
                     Console.WriteLine($"'{tmp}' is not correct index");
+                }
+                
+                catch(ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine("Error! List is empty");
+                }
+                /*
+                catch(Exception)
+                {
+                    Console.WriteLine($"Error Exception!");
+                }
+                */
 
                 
             }
@@ -327,10 +341,10 @@ namespace _01_employee_exceprtion
 
             Department dp = new Department();
             
-            dp.AddEmployee(e1);
-            dp.AddEmployee(e2);
-            dp.AddEmployee(new Employee("Jessy", "Johnson", "Engeneer", 15000));
-            dp.Print();
+            //dp.AddEmployee(e1);
+            //dp.AddEmployee(e2);
+            //dp.AddEmployee(new Employee("Jessy", "Johnson", "Engeneer", 15000));
+            //dp.Print();
             dp.DelEmployee();
             dp.Print();
 
