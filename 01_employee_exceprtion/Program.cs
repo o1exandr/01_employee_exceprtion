@@ -191,7 +191,7 @@ namespace _01_employee_exceprtion
                             flag = true;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         Console.Write($"Error! Wrong name '{n}', input correct name with letter:\t");
                         n = Console.ReadLine();
@@ -217,7 +217,7 @@ namespace _01_employee_exceprtion
                             flag = true;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         Console.Write($"Error! Wrong name '{s}', input correct name with letter:\t");
                         s = Console.ReadLine();
@@ -264,51 +264,72 @@ namespace _01_employee_exceprtion
             // додати працівника
             public void AddEmployee(Employee empl)
             {
-                   employees.Add(empl);
+                Console.WriteLine(employees.Capacity);
+                if (employees.Count > 5)
+                    throw new Exception();
+                try
+                    {
+                     if (employees.Count < 3)
+                        employees.Add(empl);
+                    }
+                catch(Exception)
+                    {
+                        Console.WriteLine("Error! List is empty!");
+                    }
+
             }
 
             // видалити працівника
             public void DelEmployee()
             {
-                try
+                bool flag = true;
+                do
                 {
-                int count = 0;
-                foreach(Employee e in employees)
-                {
-                    Console.WriteLine($"({count++})\t{e.FullName}\t{e.Position}");
-                }
-                Console.Write("\nSelect number of employee for delete:\t");
-                string tmp = Console.ReadLine();
-                if (int.TryParse(tmp, out int index) && index < employees.Count) //якщо число в це читсло не виходить за межі кількості елементів - видаляємо
-                {
-                    Console.WriteLine($"({index}) {employees[index].FullName}\tDELETED");
-                    employees.Remove(employees[index]);
-                }
-                else
-                    Console.WriteLine($"'{tmp}' is not correct index");
-                }
-                
-                catch(ArgumentOutOfRangeException)
-                {
-                    Console.WriteLine("Error! List is empty");
-                }
-                /*
-                catch(Exception)
-                {
-                    Console.WriteLine($"Error Exception!");
-                }
-                */
+                    int count = 0;
+                    // виводимо список для того щоб користувач обрав номер працівника якого потрібно видалити
+                    foreach(Employee e in employees)
+                    {
+                        Console.WriteLine($"({count++})\t{e.FullName}\t{e.Position}");
+                    }
 
-                
+                    Console.Write("\nSelect number of employee for delete:\t");
+                    string tmp = Console.ReadLine();
+
+                    try
+                    {
+                        if (int.TryParse(tmp, out int index))// && index < employees.Count) //якщо це число і воно не виходить за межі кількості елементів - видаляємо
+                        {
+                            Console.WriteLine($"({index}) {employees[index].FullName}\tDELETED");
+                            employees.Remove(employees[index]);
+                           flag = false;
+                        }
+                    else
+                        Console.WriteLine($"'{tmp}' is not correct index");
+                    }
+     
+                    // обробку виключення видалення даних з пустого масиву(списку), або при індексі, який виходить за межі ємності ліста 
+                    catch(ArgumentOutOfRangeException)
+                    {
+                        if (employees.Count == 0)
+                            {
+                                Console.WriteLine("Error! List is empty!");
+                                flag = false;
+                            }
+                        else
+                            Console.WriteLine("Error! Out of range");
+                    }
+                }while (flag);
+               
             }
 
             public void Print()
-                {
+            {
+                Console.WriteLine("\n\tList of employees");
                 foreach(Employee e in employees)
                     {
                         Console.WriteLine(e);
                     }
-                }
+            }
 
 
         }
@@ -316,8 +337,8 @@ namespace _01_employee_exceprtion
         static void Main(string[] args)
         {
             
-            Employee e1 = new Employee("John", "Smith", "Director", 20000);
-            Employee e2 = new Employee("Dwain", "Parker");
+            Employee e = new Employee("John", "Smith", "Director", 20000);
+
             //Console.WriteLine(e4);
 
             /*
@@ -341,11 +362,16 @@ namespace _01_employee_exceprtion
 
             Department dp = new Department();
             
-            //dp.AddEmployee(e1);
-            //dp.AddEmployee(e2);
-            //dp.AddEmployee(new Employee("Jessy", "Johnson", "Engeneer", 15000));
+            dp.DelEmployee(); //витдаляємо з порожнього списку
+            dp.AddEmployee(e);
+            dp.AddEmployee(new Employee("Dwain", "Parker"));
+            dp.AddEmployee(new Employee("Jessy", "Johnson", "Engeneer", 15000));
             //dp.Print();
-            dp.DelEmployee();
+            dp.DelEmployee(); // видаляємо із списку з 3ма працівника, якщо ввести номер 3 чи більше, програма виводить помилку про вихід за межі і просить ввести коректний індекс
+            dp.Print();
+            dp.AddEmployee(e);
+            dp.AddEmployee(e);
+            dp.AddEmployee(e);
             dp.Print();
 
             Console.ReadKey();
