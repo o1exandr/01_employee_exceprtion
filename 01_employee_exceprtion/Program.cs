@@ -259,24 +259,25 @@ namespace _01_employee_exceprtion
 
         public class Department
         {
+            const int maxEmpl = 5;
             List<Employee> employees = new List<Employee>();
 
             // додати працівника
             public void AddEmployee(Employee empl)
             {
-                Console.WriteLine(employees.Capacity);
-                if (employees.Count > 5)
-                    throw new Exception();
                 try
-                    {
-                     if (employees.Count < 3)
-                        employees.Add(empl);
-                    }
+                {
+                    if (employees.Count >= maxEmpl)
+                        throw new Exception();
+                    employees.Add(empl);
+                    Console.WriteLine($"\nEmployee {empl.FullName} ADD to department");
+                }
+                
                 catch(Exception)
-                    {
-                        Console.WriteLine("Error! List is empty!");
-                    }
-
+                {
+                    Console.WriteLine("\n\tError! Department can contain only 5 employees!");
+                }
+  
             }
 
             // видалити працівника
@@ -312,11 +313,11 @@ namespace _01_employee_exceprtion
                     {
                         if (employees.Count == 0)
                             {
-                                Console.WriteLine("Error! List is empty!");
+                                Console.WriteLine("\n\tError! List is empty!");
                                 flag = false;
                             }
                         else
-                            Console.WriteLine("Error! Out of range");
+                            Console.WriteLine("\n\tError! Out of range");
                     }
                 }while (flag);
                
@@ -331,6 +332,16 @@ namespace _01_employee_exceprtion
                     }
             }
 
+            public void PrintShort()
+            {
+                Console.WriteLine("\n\tList of employees");
+                int index = 0;
+                foreach(Employee e in employees)
+                    {
+                        Console.WriteLine($"({index++}) {e.FullName}\t{e.Position}");
+                    }
+            }
+
 
         }
 
@@ -338,41 +349,25 @@ namespace _01_employee_exceprtion
         {
             
             Employee e = new Employee("John", "Smith", "Director", 20000);
-
-            //Console.WriteLine(e4);
-
-            /*
-            Employee[] arr = { e1, e2, e3, new Employee("Will", "Terner", "HR", 15000) };
-            arr[3].Hobby = "Watching TV";
-            Console.WriteLine("\t-= Array of employees =-");
-            foreach (var e in arr)
-            {
-                Console.WriteLine(e);
-            }
-
-            Employee.GetSomePosition(arr, "HR"); //пошук працівникиів за посадою HR
-            Employee.PrintJournal(); // вивід журналу рестрації працівників
-
-            Console.WriteLine($"\n{arr[3].FullName} works {arr[3].Months} months or {arr[3].Years} years");
-            e1.SetName("Johntan");
-            e1.SetSurname("Walker");
-            //e1.SetSalary();
-            Console.WriteLine(e1);
-            */
-
+            e.SetName("John1");
+            //e.SetSurname("Smith;");
+            //e.SetSalary();
+            Console.WriteLine(e);
+            
             Department dp = new Department();
             
-            dp.DelEmployee(); //витдаляємо з порожнього списку
+            dp.DelEmployee(); //видаляємо з порожнього списку
+        
             dp.AddEmployee(e);
             dp.AddEmployee(new Employee("Dwain", "Parker"));
             dp.AddEmployee(new Employee("Jessy", "Johnson", "Engeneer", 15000));
             //dp.Print();
-            dp.DelEmployee(); // видаляємо із списку з 3ма працівника, якщо ввести номер 3 чи більше, програма виводить помилку про вихід за межі і просить ввести коректний індекс
-            dp.Print();
-            dp.AddEmployee(e);
-            dp.AddEmployee(e);
-            dp.AddEmployee(e);
-            dp.Print();
+            dp.DelEmployee(); // видаляємо із списку з 3ма працівниками, якщо ввести номер 3 чи більше, програма виводить помилку про вихід за межі і просить ввести коректний індекс
+            dp.PrintShort(); //після видалення у департаменті 2 працівника
+            for(int i = 0; i < 4; i++) // додаємо ще 4 і на останньому працівнику ловимо виключення про перевищення ємності департаменту
+                dp.AddEmployee(e);
+            
+            dp.PrintShort();
 
             Console.ReadKey();
         }
