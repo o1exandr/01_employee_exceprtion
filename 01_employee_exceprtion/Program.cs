@@ -15,8 +15,16 @@
 У програмі надати користувачу можливість здійснити повторну спробу введення даних.
  */
 
+ /*
+  2) Доповнити клас Department  реалізацією інтерфейсу IEnumerable.
+	для  класу Відділ- при використанні   foreach повиннен проходитися  масив(чи список) з працівників
+
+При потребі виконати завдання за  допомогою ітератора(yield).
+  */
+
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Threading;
 
@@ -257,7 +265,7 @@ namespace _01_employee_exceprtion
             }
         }
 
-        public class Department
+        public class Department : IEnumerable
         {
             const int maxEmpl = 5;
             List<Employee> employees = new List<Employee>();
@@ -342,6 +350,16 @@ namespace _01_employee_exceprtion
                     }
             }
 
+            // для  класу Відділ- при використанні   foreach повиннен проходитися  масив(чи список) з працівників
+            public IEnumerator GetEnumerator()
+            {
+                foreach(Employee e in employees)
+                {
+                        yield return e;
+
+                }
+               
+            }
 
         }
 
@@ -349,25 +367,31 @@ namespace _01_employee_exceprtion
         {
             
             Employee e = new Employee("John", "Smith", "Director", 20000);
-            e.SetName("John1");
+            //e.SetName("John1");
             //e.SetSurname("Smith;");
             //e.SetSalary();
-            Console.WriteLine(e);
+            //Console.WriteLine(e);
             
             Department dp = new Department();
             
-            dp.DelEmployee(); //видаляємо з порожнього списку
+            
+            // dp.DelEmployee(); //видаляємо з порожнього списку
         
             dp.AddEmployee(e);
             dp.AddEmployee(new Employee("Dwain", "Parker"));
             dp.AddEmployee(new Employee("Jessy", "Johnson", "Engeneer", 15000));
             //dp.Print();
-            dp.DelEmployee(); // видаляємо із списку з 3ма працівниками, якщо ввести номер 3 чи більше, програма виводить помилку про вихід за межі і просить ввести коректний індекс
-            dp.PrintShort(); //після видалення у департаменті 2 працівника
-            for(int i = 0; i < 4; i++) // додаємо ще 4 і на останньому працівнику ловимо виключення про перевищення ємності департаменту
-                dp.AddEmployee(e);
+            //dp.DelEmployee(); // видаляємо із списку з 3ма працівниками, якщо ввести номер 3 чи більше, програма виводить помилку про вихід за межі і просить ввести коректний індекс
+            //dp.PrintShort(); //після видалення у департаменті 2 працівника
             
-            dp.PrintShort();
+            //for(int i = 0; i < 4; i++) // додаємо ще 4 і на останньому працівнику ловимо виключення про перевищення ємності департаменту
+                //dp.AddEmployee(e);
+            // обхід перелічувального обєкта
+            Console.WriteLine("\n\tIEnumerator GetEnumerator()");
+            foreach (Employee t in dp) 
+                Console.WriteLine(t);
+            
+            //dp.PrintShort();
 
             Console.ReadKey();
         }
